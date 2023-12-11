@@ -38,3 +38,22 @@ def Create_Driver(link, path_name, name):
 
 def Create_Name(value):
     return '0'*(4-len(str(value))) + str(value)
+
+def Save_Image():
+    global list_polarbear,  list_brownbear
+    directory_polarbear = "dataset/polarbear"
+    directory_brownbear = "dataset/brownbear"
+    Create_Directory(directory_polarbear, directory_brownbear)
+    print(f'lens: {len(list_polarbear)}, {len(list_brownbear)}')
+
+    for elem in range(len(list_polarbear)):
+        img = urllib.request.urlopen(list_polarbear[elem].get_attribute('src')).read()
+        out = open(f"{directory_polarbear}/{Create_Name(elem)}.jpg", "wb")
+        out.write(img)
+        out.close
+    for elem in range(len(list_brownbear)):
+        img = urllib.request.urlopen(list_brownbear[elem].get_attribute('src')).read()
+        out = open(f"{directory_brownbear}/{Create_Name(elem)}.jpg", "wb")
+        out.write(img)
+        out.close
+        
