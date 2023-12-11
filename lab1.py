@@ -57,3 +57,19 @@ def Save_Image():
         out.write(img)
         out.close
         
+def main():
+    for i in range(7):
+        if len(list_polarbear) < 1000:
+            Createe_Driver(f"https://yandex.ru/images/search?p={i}&from=tabbar&text=polar_bear&lr=51&rpt=image", "//img[@class='serp-item__thumb justifier__thumb']","polar_bear")
+            time.sleep(10)
+    for i in range(7):        
+        if len(list_brownbear) < 1000:
+            Createe_Driver(f"https://yandex.ru/images/search?p={i}&from=tabbar&text=brown_bear&lr=51&rpt=image", "//img[@class='serp-item__thumb justifier__thumb']", "brown_bear")
+            time.sleep(10)
+    Save_Image()
+
+
+
+if __name__ == "__main__":
+   
+    main()
