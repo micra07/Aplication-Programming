@@ -22,3 +22,19 @@ def Scroll_Driver(driver, height):
 
 list_polarbear=[]
 list_brownbear=[]
+
+def Create_Driver(link, path_name, name):
+    global list_polarbear,  list_brownbear
+    driver = webdriver.Edge()
+    driver.get(link)
+    time.sleep(4)
+    Scroll_Driver(driver, 20000)
+    list_pictures = driver.find_elements(By.XPATH, path_name)
+    if name=="polarbear":
+        list_polarbear += list_pictures
+    if name=="brownbear":
+        list_brownbear += list_pictures
+    print(len(list_polarbear),len(list_brownbear))
+
+def Create_Name(value):
+    return '0'*(4-len(str(value))) + str(value)
