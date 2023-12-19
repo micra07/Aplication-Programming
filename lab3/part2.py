@@ -3,7 +3,7 @@ import shutil
 import csv
 from typing import List
 
-def Get_Absolute_Path_2(name: str) -> List[str]:
+def get_absolute_path(name: str) -> List[str]:
     absolute_path = os.path.abspath('dataset_2')
     image_names = os.listdir(absolute_path)
   
@@ -14,7 +14,7 @@ def Get_Absolute_Path_2(name: str) -> List[str]:
     return image_absolute_paths
 
 
-def Get_Relative_Path_2(name: str) -> List[str]:
+def get_relative_path(name: str) -> List[str]:
     relative_path = os.path.relpath('dataset_2')
     image_names = os.listdir(relative_path)
   
@@ -25,7 +25,7 @@ def Get_Relative_Path_2(name: str) -> List[str]:
     return image_relative_paths
 
 
-def Replace_Images(name: str) -> None:
+def replace_images(name: str) -> None:
     relative_path = os.path.relpath('dataset_2')
     class_path = os.path.join(relative_path, name)
     image_names = os.listdir(class_path)
@@ -41,7 +41,7 @@ def Replace_Images(name: str) -> None:
         os.rmdir(name)
     os.chdir('..')
 
-def Create_Dataset_2()-> None:
+def create_dataset_2()-> None:
     polarbear='polarbear'
     brownbear='brownbear'
     if os.path.isdir('dataset_2'):
@@ -50,10 +50,10 @@ def Create_Dataset_2()-> None:
     new = os.path.relpath('dataset_2')
     shutil.copytree(old, new)
 
-    Replace_Images(polarbear)
-    Replace_Images(brownbear) 
+    replace_images(polarbear)
+    replace_images(brownbear) 
 
-def Create_Annotation_2() -> None:
+def create_annotation_2() -> None:
     polarbear='polarbear'
     brownbear='brownbear'
     if os.path.isdir('dataset_2'):
@@ -62,13 +62,13 @@ def Create_Annotation_2() -> None:
     new = os.path.relpath('dataset_2')
     shutil.copytree(old, new)
 
-    Replace_Images(polarbear)
-    Replace_Images(brownbear) 
+    replace_images(polarbear)
+    replace_images(brownbear) 
     
-    polarbear_absolute_paths = Get_Absolute_Path2(polarbear)
-    polarbear_relative_paths = Get_Relative_Path2(polarbear)
-    brownbear_absolute_paths = Get_Absolute_Path2(brownbear)
-    brownbear_relative_paths = Get_Relative_Path2(brownbear)
+    polarbear_absolute_paths = get_absolute_path(polarbear)
+    polarbear_relative_paths = get_relative_path(polarbear)
+    brownbear_absolute_paths = get_absolute_path(brownbear)
+    brownbear_relative_paths = get_relative_path(brownbear)
 
     with open('annotation_2.csv', 'w') as csv_file:
         writer = csv.writer(csv_file, delimiter=',', lineterminator='\r')
@@ -78,3 +78,4 @@ def Create_Annotation_2() -> None:
 
         for absolute_path, relative_path in zip(brownbear_absolute_paths, brownbear_relative_paths):
             writer.writerow([absolute_path, relative_path, brownbear])
+
