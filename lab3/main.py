@@ -1,9 +1,9 @@
 import sys
 
-from part_1 import make_annotation
-from part_2 import make_dataset_2, make_annotation_2
-from part_3 import make_dataset_3, make_annotation_3
-from part_5 import Iterator
+from part1 import create_annotation
+from part2 import create_dataset_2, create_annotation_2
+from part3 import create_dataset_3, create_annotation_3
+from part5 import Iterator
 
 from PyQt5.QtCore import Qt, QEvent
 from PyQt5.QtGui import QPainter, QPixmap
@@ -11,23 +11,21 @@ from PyQt5.QtWidgets import  *
 
 
 class Window(QMainWindow):
-    
     def __init__(self) -> None:
         super().__init__()
         self.initUI()
         self.initIterators()
         self.createActions()
-        self.createMenuBar()
-        self.setGeometry(450, 200, 1000, 700)
+        self.createMenuStr()
+        self.setGeometry(450, 200, 1200, 800)
 
-    
     def initUI(self) -> None:
         self.setWindowTitle('polarbear/brownbear')
         self.centralWidget = QWidget()
         self.setCentralWidget(self.centralWidget)
 
-        polarbear_btn = QPushButton('Next polarbear', self)
-        brownbear_btn = QPushButton('Next brownbear', self)
+        polarbear_btn = QPushButton('The next polar bear', self)
+        brownbear_btn = QPushButton('The next brown bear', self)
 
         self.lbl = QLabel(self)
         self.lbl.setAlignment(Qt.AlignCenter)
@@ -51,12 +49,10 @@ class Window(QMainWindow):
 
         self.show()
 
-    
     def initIterators(self) -> None:
         self.polarbear = Iterator('polarbear', 'dataset')
         self.brownbear = Iterator('brownbear', 'dataset')
 
-    """Следующий polarbear"""
     def nextpolarbear(self) -> None:
         lbl_size = self.lbl.size()
         next_image = next(self.polarbear)
@@ -68,7 +64,6 @@ class Window(QMainWindow):
             self.initIterators()
             self.nextpolarbear()
 
-    
     def nextbrownbear(self) -> None:
         lbl_size = self.lbl.size()
         next_image = next(self.brownbear)
@@ -80,38 +75,69 @@ class Window(QMainWindow):
             self.initIterators()
             self.nextbrownbear()
 
-  
-    def createMenuBar(self) -> None:
-        menuBar = self.menuBar()
+    def createMenuStr(self) -> None:
+        menuStr = self.menuStr()
 
-        self.fileMenu = menuBar.addMenu('&File')
+        self.fileMenu = menuStr.addMenu('&Menu')
         self.fileMenu.addAction(self.exitAction)
         self.fileMenu.addAction(self.changeAction)
 
-        self.annotationMenu = menuBar.addMenu('&Annotation')
+        self.annotationMenu = menuStr.addMenu('&Annotation')
         self.annotationMenu.addAction(self.createannotationAction)
 
-        self.dataMenu = menuBar.addMenu('&Dataset')
+        self.dataMenu = menuStr.addMenu('&Other Dataset')
         self.dataMenu.addAction(self.createData2Action)
+        self.dataMenu.addAction(self.createData3Action)
 
-    
     def createActions(self) -> None:
     
-        self.exitAction = QAction('&Exit')
-        self.exitAction.triggered.connect(qApp.quit)
+        self.exitkey = QAction('&Exit')
+        self.exitkey.triggered.connect(qApp.quit)
 
-        self.changeAction = QAction('&Change dataset')
-        self.changeAction.triggered.connect(self.changeDataset)
+        self.changekey = QAction('&Change dataset')
+        self.changekey.triggered.connect(self.changeDataset)
 
-        self.createannotationAction = QAction('&Create annotation for current dataset')
-        self.createannotationAction.triggered.connect(self.createAnnotation)
+        self.createannotationkey = QAction('&Create annotation')
+        self.createannotationkey.triggered.connect(self.createAnnotation)
 
-        self.createData2Action = QAction('&Create dataset2')
-        self.createData2Action.triggered.connect(self.createDataset2)
+        self.createData2key = QAction('&dataset2')
+        self.createData2key.triggered.connect(self.dataset2)
 
-        self.createData3Action = QAction('&Create dataset3')
-        self.createData3Action.triggered.connect(self.createDataset3)
+        self.createData3key = QAction('&dataset3')
+        self.createData3key.triggered.connect(self.dataset3)
     
+        
+    def createAnnotation(self) -> None:
+    
+        if 'dataset' in str(self.folderpath):
+            create_annotation()
+        elif 'dataset_2' in str(self.folderpath):
+            create_annotation_2()
+        elif 'dataset_3' in str(self.folderpath):
+            create_annotation_3()
+
+    def changeDataset(self) -> None:
+        reply = QMessageBox.question(self, 'Warning', f'Are you going to change current dataset.Confirm this?\nCurrent dataset: {str(self.folderpath)}', QMessageBox.Yes | QMessageBox.No)
+
+        if reply == QMessageBox.Yes:
+            self.folderpath = QFileDialog.getExistingDirectory(self, 'Select Folder')
+        else:
+            pass
+    
+    def dataset2(self) -> None:
+        create_dataset_2()
+        
+
+    def dataset3(self) -> None:
+        create_dataset_3()
+
+    def closeEvent(self, event: QEvent) -> None:
+        reply = QMessageBox.question(self, 'Message', 'Are you sure to escape?',
+                                     QMessageBox.Yes | QMessageBox.No)
+        if reply == QMessageBox.Yes:
+            event.accept()
+        else:
+            event.ignore()
 
 def main() -> None:
     app = QApplication(sys.argv)
