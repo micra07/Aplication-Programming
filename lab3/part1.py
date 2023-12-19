@@ -2,7 +2,7 @@ import os
 import csv
 from typing import List
 
-def Get_Absolute_Path(name: str) -> List[str]:
+def get_absolute_path(name: str) -> List[str]:
     name_absolute_path=os.path.abspath(f"dataset/{name}")
     image_names = os.listdir(name_absolute_path)
 
@@ -10,7 +10,7 @@ def Get_Absolute_Path(name: str) -> List[str]:
     
     return image_absolute_paths
 
-def Get_Relative_Path(name: str) -> List[str]:
+def get_relative_path(name: str) -> List[str]:
     name_relative_path=os.path.relpath(f"dataset/{name}")
     image_names = os.listdir(name_relative_path)
 
@@ -18,14 +18,14 @@ def Get_Relative_Path(name: str) -> List[str]:
 
     return image_relative_paths
     
-def Create_Annotation() -> None:
+def create_annotation() -> None:
     polarbear='polarbear'
     brownbear='brownbear'
 
-    polarbear_absolute_paths = Get_Absolute_Path(polarbear)
-    polarbear_relative_paths = Get_Relative_Path(polarbear)
-    brownbear_absolute_paths = Get_Absolute_Path(brownbear)
-    brownbear_relative_paths = Get_Relative_Path(brownbear)
+    polarbear_absolute_paths = get_absolute_path(polarbear)
+    polarbear_relative_paths = get_relative_path(polarbear)
+    brownbear_absolute_paths = get_absolute_path(brownbear)
+    brownbear_relative_paths = get_relative_path(brownbear)
 
     with open('annotation.csv', 'w') as csv_file:
         writer = csv.writer(csv_file, delimiter=',', lineterminator='\r')
