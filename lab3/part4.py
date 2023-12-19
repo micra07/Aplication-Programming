@@ -1,6 +1,6 @@
 import os
 
-def Get_Next(name: str) -> str:
+def get_next(name: str) -> str:
     path = os.path.join('dataset', name)
     img_names = os.listdir(path)
     img_names.append(None)
@@ -12,4 +12,4 @@ def Get_Next(name: str) -> str:
             yield None   
 
 if __name__ == "__main__":
-    print(*Get_Next('brownbear'))
+    print(*get_next('brownbear'))
