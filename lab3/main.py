@@ -125,14 +125,16 @@ class Window(QMainWindow):
             pass
     
     def dataset2(self) -> None:
-        create_dataset_2()
+        self.folderpath = QFileDialog.getExistingDirectory(self, 'Select Folder')
+        create_dataset_2(self.folderpath)
         
 
     def dataset3(self) -> None:
-        create_dataset_3()
+        self.folderpath = QFileDialog.getExistingDirectory(self, 'Select Folder')
+        create_dataset_3(self.folderpath)
 
     def closeEvent(self, event: QEvent) -> None:
-        reply = QMessageBox.question(self, 'Message', 'Are you sure to escape?',
+        reply = QMessageBox.question(self, 'Message', 'Are you going to quit.Confirm?',
                                      QMessageBox.Yes | QMessageBox.No)
         if reply == QMessageBox.Yes:
             event.accept()
