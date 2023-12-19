@@ -6,7 +6,7 @@ import random
 random_numbers = random.sample(range(0, 10000), 2391)
 new_names = [f'{number}.jpg' for number in random_numbers]
 
-def Create_Dataset_3() -> None:
+def create_dataset_3() -> None:
 
     if os.path.isdir('dataset_3'):
         shutil.rmtree('dataset_3')
@@ -26,7 +26,7 @@ def Create_Dataset_3() -> None:
 
 
 
-def Create_Annotation_3() -> None:
+def create_annotation_3() -> None:
 
     old_path = os.path.relpath('dataset_2')
     old_names = os.listdir(old_path)
@@ -50,5 +50,6 @@ def Create_Annotation_3() -> None:
 
 
 if __name__ == "__main__":
-    Create_Dataset_3()
-    Create_Annotation_3()
+    create_dataset_3()
+    create_annotation_3()
+
