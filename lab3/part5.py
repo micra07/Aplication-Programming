@@ -32,3 +32,4 @@ if __name__ == "__main__":
     print(next(brownbear))
     print(next(brownbear))
     print(next(brownbear))
+
