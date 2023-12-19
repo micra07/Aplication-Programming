@@ -41,13 +41,13 @@ def replace_images(name: str) -> None:
         os.rmdir(name)
     os.chdir('..')
 
-def create_dataset_2()-> None:
+def create_dataset_2(select_folder)-> None:
     polarbear='polarbear'
     brownbear='brownbear'
-    if os.path.isdir('dataset_2'):
-        shutil.rmtree('dataset_2')
+    if os.path.isdir(select_folder):
+        shutil.rmtree(select_folder)
     old = os.path.relpath('dataset')
-    new = os.path.relpath('dataset_2')
+    new = os.path.relpath(select_folder)
     shutil.copytree(old, new)
 
     replace_images(polarbear)
@@ -78,4 +78,3 @@ def create_annotation_2() -> None:
 
         for absolute_path, relative_path in zip(brownbear_absolute_paths, brownbear_relative_paths):
             writer.writerow([absolute_path, relative_path, brownbear])
-
