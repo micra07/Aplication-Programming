@@ -6,8 +6,9 @@ from part3 import create_dataset_3, create_annotation_3
 from part5 import Iterator
 
 from PyQt5.QtCore import Qt, QEvent
-from PyQt5.QtGui import QPainter, QPixmap
+from PyQt5.QtGui import QPainter, QPixmap, QFont
 from PyQt5.QtWidgets import  *
+from PyQt5.QtWidgets import  QApplication,QWidget, QLabel
 
 
 class Window(QMainWindow):
@@ -17,26 +18,35 @@ class Window(QMainWindow):
         self.initIterators()
         self.createActions()
         self.createMenuStr()
-        self.setGeometry(450, 200, 1200, 800)
+        self.setGeometry(0, 35, 1080, 720)
+        self.setStyleSheet('background-color: grey;')
+
+
 
     def initUI(self) -> None:
         self.setWindowTitle('polarbear/brownbear')
         self.centralWidget = QWidget()
         self.setCentralWidget(self.centralWidget)
+        font = QFont('Georgia',14)
 
         polarbear_btn = QPushButton('The next polar bear', self)
         brownbear_btn = QPushButton('The next brown bear', self)
+        polarbear_btn.setFont(font)
+        brownbear_btn.setFont(font)
+        polarbear_btn.setStyleSheet('background-color: black; color: white;')
+        brownbear_btn.setStyleSheet('background-color: black; color: white;')
 
         self.lbl = QLabel(self)
-        self.lbl.setAlignment(Qt.AlignCenter)
+        self.lbl.setAlignment(Qt.AlignRight)
+        self.lbl.setFont(font)
 
         hbox = QHBoxLayout()
-        hbox.addSpacing(1)
+        hbox.addSpacing(0)
         hbox.addWidget(polarbear_btn)
         hbox.addWidget(brownbear_btn)
 
         vbox = QVBoxLayout()
-        vbox.addSpacing(1)
+        vbox.addSpacing(0)
         vbox.addWidget(self.lbl)
         vbox.addLayout(hbox)
 
@@ -61,6 +71,7 @@ class Window(QMainWindow):
             self.lbl.setPixmap(img)
             self.lbl.setAlignment(Qt.AlignCenter)
         else:
+            
             self.initIterators()
             self.nextpolarbear()
 
@@ -76,18 +87,21 @@ class Window(QMainWindow):
             self.nextbrownbear()
 
     def createMenuStr(self) -> None:
-        menuStr = self.menuStr()
+        menuStr = self.menuBar()
+        font = QFont('Georgia',14)
+        self.setFont(font)
 
         self.fileMenu = menuStr.addMenu('&Menu')
-        self.fileMenu.addAction(self.exitAction)
-        self.fileMenu.addAction(self.changeAction)
+        self.fileMenu.addAction(self.exitkey)
+        self.fileMenu.addAction(self.changekey)
+
 
         self.annotationMenu = menuStr.addMenu('&Annotation')
-        self.annotationMenu.addAction(self.createannotationAction)
+        self.annotationMenu.addAction(self.createannotationkey)
 
         self.dataMenu = menuStr.addMenu('&Other Dataset')
-        self.dataMenu.addAction(self.createData2Action)
-        self.dataMenu.addAction(self.createData3Action)
+        self.dataMenu.addAction(self.createData2key)
+        self.dataMenu.addAction(self.createData3key)
 
     def createActions(self) -> None:
     
@@ -117,7 +131,7 @@ class Window(QMainWindow):
             create_annotation_3()
 
     def changeDataset(self) -> None:
-        reply = QMessageBox.question(self, 'Warning', f'Are you going to change current dataset.Confirm this?\nCurrent dataset: {str(self.folderpath)}', QMessageBox.Yes | QMessageBox.No)
+        reply = QMessageBox.question(self, 'Warning', f'Are you going to change current dataset. Confirm this?\nCurrent dataset: {str(self.folderpath)}', QMessageBox.Yes | QMessageBox.No)
 
         if reply == QMessageBox.Yes:
             self.folderpath = QFileDialog.getExistingDirectory(self, 'Select Folder')
@@ -133,13 +147,15 @@ class Window(QMainWindow):
         self.folderpath = QFileDialog.getExistingDirectory(self, 'Select Folder')
         create_dataset_3(self.folderpath)
 
-    def closeEvent(self, event: QEvent) -> None:
-        reply = QMessageBox.question(self, 'Message', 'Are you going to quit.Confirm?',
+
+def closeEvent(self, event: QEvent) -> None:
+        reply = QMessageBox.question(self, 'Message', 'Are you going to quit. Confirm this?',
                                      QMessageBox.Yes | QMessageBox.No)
         if reply == QMessageBox.Yes:
             event.accept()
         else:
             event.ignore()
+
 
 def main() -> None:
     app = QApplication(sys.argv)
